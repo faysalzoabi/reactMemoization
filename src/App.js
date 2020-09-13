@@ -1,24 +1,25 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, {useState, useCallback} from 'react';
 import './App.css';
+import Child from './Child';
 
 function App() {
+  const [counter, setCounter] = useState(0);
+  const [input, setInput] = useState('');
+
+  // memoize the function ..function is always same Reference... only redefined if counter changed
+  const updateCounterFromChild = useCallback(() => setCounter(counter + 1), [counter]);
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>Hello from Parent: {counter}</h1>
+      <button onClick={() => setCounter(counter + 1)}>+1</button>
+      <input type="text" value={input} onChange={e => setInput(e.target.value)}/>
+      <Child counter={counter} updateCounter={updateCounterFromChild}/>
+      {/* <EventBind/> */}
+      {/* <ParentComponent/> */}
+      {/* <ClickCounter/>
+      <HoverCounter/> */}
+      {/* <MyParentComponent/> */}
+      {/* <Counter/> */}
     </div>
   );
 }
